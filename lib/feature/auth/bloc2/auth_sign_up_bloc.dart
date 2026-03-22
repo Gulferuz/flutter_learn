@@ -5,89 +5,95 @@ part 'auth_sign_up_event.dart';
 
 part 'auth_sign_up_state.dart';
 
-class AuthSignUpBloc extends Bloc<AuthSignUpBlocEvent, AuthSignUpState> {
+class AuthSignUpBloc extends Bloc<AuthSignUpEvent, AuthSignUpState> {
   AuthSignUpBloc() : super(AuthSignUpState()) {
     on<PasswordChangedSign>((event, emit) {
-      emit(state.zamenaNujnixPoley(passwordValueSign: event.passwordValueSign));
-
+      emit(
+        state.zamenaNujnixPoley(
+          passwordValueSign: event.passwordValueSign,
+          passwordErrorTextSign: null,
+        ),
+      );
     });
     on<EmailChangedSign>((event, emit) {
-      emit(state.zamenaNujnixPoley(emailValueSign: event.emailValueSign));
+      emit(
+        state.zamenaNujnixPoley(
+          emailValueSign: event.emailValueSign,
+          emailErrorTextSign: null,
+        ),
+      );
     });
-    on<NameChangedSign>((event,emit){
-      emit(state.zamenaNujnixPoley(
-        nameValueSign: event.nameValueSign,
-      ));
+    on<NameChangedSign>((event, emit) {
+      emit(
+        state.zamenaNujnixPoley(
+          nameValueSign: event.nameValueSign,
+          nameErrorTextSign: null,
+        ),
+      );
     });
 
     on<AuthSubmitSignUp>((event, emit) {
+      String? emailErrorTextSign;
+      String? nameError;
+      String? passwordError;
+
+      var emailStatus = EmailCheckStatusSignUp.valid;
+      var nameStatus = NameCheckStatusSignUp.valid;
+      var passwordStatus = PasswordCheckStatusSignUp.valid;
+      var statusSignUp = AuthSignUpStatus.initial;
+
+      // Email
+      if (state.emailValueSign == null || state.emailValueSign!.isEmpty) {
+        emailErrorTextSign = 'Заполните поле';
+        emailStatus = EmailCheckStatusSignUp.notValid;
+        print(emailErrorTextSign);
+      }
+
+      // Name
+      if (state.nameValueSign == null || state.nameValueSign!.isEmpty) {
+        print('HERE');
+        nameError = 'Заполните поле';
+        nameStatus = NameCheckStatusSignUp.notValid;
+        print(nameError);
+      }
+
+      // Password
+      final password = state.passwordValueSign ?? '';
+
+      if (password.isEmpty) {
+        passwordError = 'Заполните поле';
+        passwordStatus = PasswordCheckStatusSignUp.notValid;
+      } else if (!isValidPassword(password)) {
+        passwordError = 'Пароль слишком слабый';
+        passwordStatus = PasswordCheckStatusSignUp.notValid;
+      } else {
+        passwordError = null;
+        passwordStatus = PasswordCheckStatusSignUp.valid;
+      }
+
+      if (emailStatus == EmailCheckStatusSignUp.valid &&
+          passwordStatus == PasswordCheckStatusSignUp.valid &&
+          nameStatus == NameCheckStatusSignUp.valid) {
+        statusSignUp = AuthSignUpStatus.success;
+      }
+
+      // Один emit в конце
       emit(
         state.zamenaNujnixPoley(
-          emailErrorTextSign: null,
-          passwordErrorTextSign: null,
-          passwordValueSign: state.passwordValueSign
+          emailErrorTextSign: emailErrorTextSign,
+          checkEmailStatusSignUp: emailStatus,
+          nameErrorTextSign: nameError,
+          checkNameStatusSignUp: nameStatus,
+          passwordErrorTextSign: passwordError,
+          checkPasswordStatusSignUp: passwordStatus,
+          statusSignUp: statusSignUp,
         ),
       );
-      if (state.emailValueSign == null || state.emailValueSign!.isEmpty) {
-        emit(
-          state.zamenaNujnixPoley(
-            emailErrorTextSign: 'Заполните поля',
-            checkEmailStatusSignUp: EmailCheckStatusSignUp.notValid,
-          ),
-        );
-      } else {
-        emit(
-          state.zamenaNujnixPoley(
-            emailErrorTextSign: null,
-            checkEmailStatusSignUp: EmailCheckStatusSignUp.valid,
-          ),
-        );
-      }
-      if (state.nameValueSign == null || state.nameValueSign!.isEmpty) {
-        emit(
-          state.zamenaNujnixPoley(
-          nameErrorTextSign: 'Заполните поля',
-            checkNameStatusSignUp: NameCheckStatusSignUp.notValid,
-          )
-        );
-      }
-      else{
-        emit(
-          state.zamenaNujnixPoley(
-            nameErrorTextSign: null,
-          checkNameStatusSignUp: NameCheckStatusSignUp.valid,
-          )
-        );
-      }
-      if (state.passwordValueSign == null || state.passwordValueSign!.isEmpty) {
-        emit(state.zamenaNujnixPoley(
-          passwordErrorTextSign: 'Заполните поля',
-          checkPasswordStatusSignUp: PasswordCheckStatusSignUp.notValid,
-        ));
-      } else if (state.passwordValueSign!.length <6) {
-        emit (
-            state.zamenaNujnixPoley(
-              passwordErrorTextSign: 'меньше 6',
-              checkPasswordStatusSignUp: PasswordCheckStatusSignUp.notValid,
-            ),
-        );
-      }
-      else {
-        emit(state.zamenaNujnixPoley(
-          passwordValueSign: state.passwordValueSign,
-          passwordErrorTextSign: null,
-          checkPasswordStatusSignUp: PasswordCheckStatusSignUp.valid,
-        ));
-      }
-      emit(state.zamenaNujnixPoley(
-        emailErrorTextSign: state.emailErrorTextSign,
-        nameErrorTextSign: state.nameErrorTextSign,
-        passwordErrorTextSign: state.passwordErrorTextSign,
-        checkEmailStatusSignUp: state.checkEmailStatusSignUp,
-        checkNameStatusSignUp: state.checkNameStatusSignUp,
-        checkPasswordStatusSignUp: state.checkPasswordStatusSignUp,
-      ));
-
     });
   }
+}
+
+bool isValidPassword(String password) {
+  final regExp = RegExp(r'^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$');
+  return regExp.hasMatch(password);
 }

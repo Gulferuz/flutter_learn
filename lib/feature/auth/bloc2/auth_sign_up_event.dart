@@ -1,19 +1,19 @@
 part of 'auth_sign_up_bloc.dart';
 
-class AuthSignUpBlocEvent {} // родительский класс
+class AuthSignUpEvent {} // родительский класс
 
-class AuthSubmitSignUp extends AuthSignUpBlocEvent {} // кнопка наследуется от родительского класса
+class AuthSubmitSignUp extends AuthSignUpEvent {} // кнопка наследуется от родительского класса
 
-class PasswordChangedSign extends AuthSignUpBlocEvent { // поле изменений тоже дочерний класс наследуется от родительского класса
+class PasswordChangedSign extends AuthSignUpEvent { // поле изменений тоже дочерний класс наследуется от родительского класса
   final String? passwordValueSign;  // переменная которую мы создали
 
   PasswordChangedSign(this.passwordValueSign); // конструктор
 }
-class EmailChangedSign extends AuthSignUpBlocEvent{
+class EmailChangedSign extends AuthSignUpEvent{
   final String? emailValueSign;
   EmailChangedSign(this.emailValueSign);
 }
-class NameChangedSign extends AuthSignUpBlocEvent{
+class NameChangedSign extends AuthSignUpEvent{
   final String? nameValueSign;
   NameChangedSign(this.nameValueSign);
 }

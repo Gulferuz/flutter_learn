@@ -31,50 +31,8 @@ class SignupPage extends StatelessWidget {
   }
 }
 
-class SignupView extends StatefulWidget {
+class SignupView extends StatelessWidget {
   const SignupView({super.key});
-
-  @override
-  State<SignupView> createState() => _SignupViewState();
-}
-
-class _SignupViewState extends State<SignupView> {
-  // final _formKey = GlobalKey<FormState>();
-  // final _authBloc = AuthBloc();
-  // final TextEditingController nameController = TextEditingController();
-  // final TextEditingController emailController = TextEditingController();
-  // final TextEditingController passwordController = TextEditingController();
-
-  // String? checkByEmptySign (String? value) {
-  //   //для формы textformfield
-  //   if (value == null || value.isEmpty) {
-  //     return 'Заполинте поля!';
-  //   }
-  //   return null;
-  // }
-
-  @override
-  void initState() {
-    super.initState();
-    // context.read<AuthBloc>().add(AuthCheckName('value'));
-  }
-
-  @override
-  void dispose() {
-    // emailController.dispose();
-    // nameController.dispose();
-
-    super.dispose();
-  }
-
-  void checkButtonSignUp() {
-    // context.router.push(DashboardPageRoute())
-  }
-
-  void gotoLoginPage() {
-    context.router.maybePop();
-    context.router.push(LoginPageRoute());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +40,17 @@ class _SignupViewState extends State<SignupView> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: BlocBuilder<AuthSignUpBloc, AuthSignUpState>(
+          child: BlocConsumer<AuthSignUpBloc, AuthSignUpState>(
+            listener: (context, state) {
+              print('LISTENER');
+              print(state.statusSignUp);
+              if (state.statusSignUp == AuthSignUpStatus.success) {
+                context.router.push(DashboardPageRoute());
+              }
+            },
             builder: (context, state) {
+              print('UISSSSS');
+              print(state.nameErrorTextSign);
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,7 +64,9 @@ class _SignupViewState extends State<SignupView> {
                     filled: true,
                     errorText: state.nameErrorTextSign,
                     onChange: (value) {
-                      context.read<AuthSignUpBloc>().add(NameChangedSign(value));
+                      context.read<AuthSignUpBloc>().add(
+                        NameChangedSign(value),
+                      );
                     },
                   ),
                   // Text(state.passwordErrorTextSign ?? "s",style: TextStyle(color: Colors.black),),
@@ -109,10 +78,12 @@ class _SignupViewState extends State<SignupView> {
                     errorText: state.emailErrorTextSign,
                     onChange: (value) {
                       print(value);
-                      context.read<AuthSignUpBloc>().add(EmailChangedSign(value));
+                      context.read<AuthSignUpBloc>().add(
+                        EmailChangedSign(value),
+                      );
                     },
                     // validator: checkByEmptySign
-              ),
+                  ),
                   // Text(state.passwordErrorTextSign ?? "s",style: TextStyle(color: Colors.black),),
                   SizedBox(height: 10),
                   TextformfieldAuth(
@@ -123,7 +94,9 @@ class _SignupViewState extends State<SignupView> {
                     onChange: (value) {
                       print('HEREEEEE');
                       print(value);
-                      context.read<AuthSignUpBloc>().add(PasswordChangedSign(value));
+                      context.read<AuthSignUpBloc>().add(
+                        PasswordChangedSign(value),
+                      );
                     },
                     // validator: (value) => checkPasswordSignUp(value),
                   ),
@@ -131,7 +104,7 @@ class _SignupViewState extends State<SignupView> {
                   SizedBox(height: 8),
                   // TextButton(onPressed: (gotoLoginPage), child: Text('Already have an account?'),),
                   TextbuttonPage(
-                    onPressed: (gotoLoginPage),
+                    onPressed: () => context.router.push(LoginPageRoute()),
                     text: 'Already have an account?',
                   ),
                   SizedBox(height: 36),

@@ -6,7 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:untitled/core/constants/app_colors.dart';
 import 'package:untitled/core/constants/app_text_styles.dart';
 import 'package:untitled/core/router/app_router.gr.dart';
-import 'package:untitled/feature/auth/bloc2/auth_sign_up_bloc.dart' hide EmailChanged;
+
+
 import 'package:untitled/feature/auth/view/forgot_password_page.dart';
 import 'package:untitled/feature/auth/widgets/template_text.dart';
 import 'package:untitled/feature/auth/widgets/textButton_page.dart';
@@ -72,7 +73,12 @@ class _LoginViewState extends State<LoginView> {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: BlocBuilder<AuthBloc, AuthState>(
+            child: BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state.status == AuthStatus.success) {
+                  context.router.push(DashboardPageRoute());
+                }
+              },
               builder: (context, state) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -86,7 +92,7 @@ class _LoginViewState extends State<LoginView> {
 
                       hintText: 'Email',
                       filled: true,
-                      errorText: state.passwordErrorTxt,
+                      errorText: state.emailError,
                       onChange: (value) {
                         context.read<AuthBloc>().add(EmailChanged(value));
                       },
@@ -95,12 +101,9 @@ class _LoginViewState extends State<LoginView> {
 
                     SizedBox(height: 8),
                     TextformfieldAuth(
-                      // validator: (value) => checkPassword(value),
                       hintText: 'Password',
                       errorText: state.passwordErrorTxt,
                       onChange: (value) {
-                        print('HEREEE');
-                        print(value);
                         context.read<AuthBloc>().add(PasswordChanged(value));
                       },
                       filled: true,
