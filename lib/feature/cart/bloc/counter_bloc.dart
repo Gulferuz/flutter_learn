@@ -10,27 +10,19 @@ final class CounterBloc extends Bloc<CounterEvent, CounterState> {
 
   void _onIncrement(Increment event, Emitter<CounterState> emit) {
     final newCount = event.currentCount + 1;
-    final currentCount = state.oldProductCount[event.key] ?? 0;
 
     final result = Map<int, int>.from(state.oldProductCount);
     result[event.key] = newCount;
 
-    emit(
-      state.copyWith(
-        newProductCount: result,
-      ),
-    );
+    emit(state.copyWith(newProductCount: result));
   }
+
   void _onDecrement(Decrement event, Emitter<CounterState> emit) {
     final newCount = event.currentCount - 1;
-   final currentCount = state.oldProductCount[event.key] ?? 0;
+
     final result = Map<int, int>.from(state.oldProductCount);
     result[event.key] = newCount;
 
-    emit(
-      state.copyWith(
-        newProductCount: result,
-      ),
-    );
+    emit(state.copyWith(newProductCount: result));
   }
 }

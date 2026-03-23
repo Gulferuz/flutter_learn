@@ -4,6 +4,8 @@ enum PasswordCheckStatus { initial, notValid, valid }
 
 enum EmailCheckStatus { initial, notValid, valid }
 
+enum NameCheckStatusSignUp { initial, notValid, valid }
+
 enum AuthStatus { initial, loading, success, error }
 
 final class AuthState {
@@ -14,6 +16,10 @@ final class AuthState {
   final String? emailError;
   final EmailCheckStatus? checkEmailStatus;
   final AuthStatus status;
+  final String? nameValueSign;
+  final String? nameErrorTextSign;
+  final NameCheckStatusSignUp? checkNameStatusSignUp;
+
 
   const AuthState({
     this.passwordValue,
@@ -23,6 +29,10 @@ final class AuthState {
     this.emailError,
     this.checkEmailStatus,
     this.status = AuthStatus.initial,
+    this.nameValueSign,
+    this.nameErrorTextSign,
+    this.checkNameStatusSignUp,
+
   });
 
   AuthState zamenaNujnixPoley({
@@ -33,6 +43,9 @@ final class AuthState {
     String? emailError,
     EmailCheckStatus? checkEmailStatus,
     AuthStatus? status,
+    String? nameValueSign,
+    String? nameErrorTextSign,
+    NameCheckStatusSignUp? checkNameStatusSignUp,
   }) {
     return AuthState(
       passwordValue: passwordValue ?? this.passwordValue,
@@ -42,6 +55,11 @@ final class AuthState {
       emailError: emailError,
       checkEmailStatus: checkEmailStatus ?? this.checkEmailStatus,
       status: status ?? this.status,
+      nameValueSign: nameValueSign ?? this.nameValueSign,
+      nameErrorTextSign: nameErrorTextSign,
+      checkNameStatusSignUp:
+      checkNameStatusSignUp ?? this.checkNameStatusSignUp,
+
     );
   }
 }

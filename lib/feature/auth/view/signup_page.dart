@@ -7,7 +7,7 @@ import 'package:untitled/core/constants/app_colors.dart';
 import 'package:untitled/core/constants/app_text_styles.dart';
 import 'package:untitled/core/router/app_router.gr.dart';
 import 'package:untitled/feature/auth/bloc/auth_bloc.dart';
-import 'package:untitled/feature/auth/bloc2/auth_sign_up_bloc.dart';
+
 import 'package:untitled/feature/auth/view/forgot_password_page.dart';
 import 'package:untitled/feature/auth/view/login_page.dart';
 import 'package:untitled/feature/auth/widgets/template_text.dart';
@@ -24,10 +24,7 @@ class SignupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthSignUpBloc(),
-      child: SignupView(),
-    );
+    return BlocProvider(create: (context) => AuthBloc(), child: SignupView());
   }
 }
 
@@ -40,11 +37,9 @@ class SignupView extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: BlocConsumer<AuthSignUpBloc, AuthSignUpState>(
+          child: BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
-              print('LISTENER');
-              print(state.statusSignUp);
-              if (state.statusSignUp == AuthSignUpStatus.success) {
+              if (state.status == AuthStatus.success) {
                 context.router.push(DashboardPageRoute());
               }
             },
@@ -64,9 +59,7 @@ class SignupView extends StatelessWidget {
                     filled: true,
                     errorText: state.nameErrorTextSign,
                     onChange: (value) {
-                      context.read<AuthSignUpBloc>().add(
-                        NameChangedSign(value),
-                      );
+                      context.read<AuthBloc>().add(NameChangedSign(value));
                     },
                   ),
                   // Text(state.passwordErrorTextSign ?? "s",style: TextStyle(color: Colors.black),),
@@ -75,12 +68,10 @@ class SignupView extends StatelessWidget {
                     // controller: emailController,
                     hintText: 'Email',
                     filled: true,
-                    errorText: state.emailErrorTextSign,
+                    errorText: state.emailError,
                     onChange: (value) {
                       print(value);
-                      context.read<AuthSignUpBloc>().add(
-                        EmailChangedSign(value),
-                      );
+                      context.read<AuthBloc>().add(EmailChanged(value));
                     },
                     // validator: checkByEmptySign
                   ),
@@ -89,14 +80,12 @@ class SignupView extends StatelessWidget {
                   TextformfieldAuth(
                     hintText: 'Password',
                     filled: true,
-                    errorText: state.passwordErrorTextSign,
+                    errorText: state.passwordErrorTxt,
                     // validator: checkByEmptySign,
                     onChange: (value) {
                       print('HEREEEEE');
                       print(value);
-                      context.read<AuthSignUpBloc>().add(
-                        PasswordChangedSign(value),
-                      );
+                      context.read<AuthBloc>().add(PasswordChanged(value));
                     },
                     // validator: (value) => checkPasswordSignUp(value),
                   ),
@@ -113,7 +102,7 @@ class SignupView extends StatelessWidget {
                     onPressed: () {
                       // print(state.passwordValueSign);
                       // print(state.passwordErrorTextSign);
-                      context.read<AuthSignUpBloc>().add(AuthSubmitSignUp());
+                      context.read<AuthBloc>().add(AuthSignUpSubmit());
                     },
                     size: Size(343, 48),
                     background: Primary,

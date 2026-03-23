@@ -2,17 +2,13 @@ import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:untitled/core/constants/app_colors.dart';
 import 'package:untitled/core/constants/app_text_styles.dart';
 import 'package:untitled/core/router/app_router.gr.dart';
 
-
-import 'package:untitled/feature/auth/view/forgot_password_page.dart';
 import 'package:untitled/feature/auth/widgets/template_text.dart';
 import 'package:untitled/feature/auth/widgets/textButton_page.dart';
 import 'package:untitled/ui_components/textformfield_auth.dart';
-import 'package:untitled/feature/dashboard/view/dashboard_page.dart';
 import '../bloc/auth_bloc.dart';
 import '../widgets/social_button.dart';
 import '../widgets/styled_button.dart';
@@ -56,14 +52,6 @@ class _LoginViewState extends State<LoginView> {
     // логика если забыл пароль
     context.router.push(ForgotPasswordPageRoute());
   }
-
-  // String? checkByEmpty(String? value) {
-  //   //для формы textformfield
-  //   if (value == null || value.isEmpty) {
-  //     return 'Заполинте поля!';
-  //   }
-  //   return null;
-  // }
 
   @override
   Widget build(BuildContext context) {
