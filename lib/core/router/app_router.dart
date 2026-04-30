@@ -23,7 +23,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: Succes2PageRoute.page),
     AutoRoute(page: AddShippingAddressRoute.page),
     AutoRoute(page: OrderDetailsPageRoute.page),
-    AutoRoute(page: SettingsPageRoute.page),
+    AutoRoute(page: PostPageRoute.page),
 
   ];
 }

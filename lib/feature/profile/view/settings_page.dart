@@ -7,7 +7,6 @@ import 'package:untitled/ui_components/textformfield_auth.dart';
 
 import '../../cart/widgets/template_bottom_sheet.dart';
 
-@RoutePage(name: 'SettingsPageRoute')
 void showModalPromo(BuildContext context) {
   showModalBottomSheet<void>(
     isScrollControlled: true,

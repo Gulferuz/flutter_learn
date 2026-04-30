@@ -125,7 +125,7 @@ class _MyProfileState extends State<MyProfile> {
                   context.router.maybePop();
                 },
                 onTap: () {
-                  context.router.push(SettingsPageRoute());
+                  // context.router.push(SettingsPageRoute());
                 },
               ),
             ],

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:untitled/core/constants/app_colors.dart';
 import 'package:untitled/core/constants/app_text_styles.dart';
 import 'package:untitled/core/router/app_router.gr.dart';
+import 'package:untitled/feature/api_test/post_repository.dart';
 import 'package:untitled/feature/auth/bloc/auth_bloc.dart';
 
 import 'package:untitled/feature/auth/view/forgot_password_page.dart';
@@ -28,9 +29,14 @@ class SignupPage extends StatelessWidget {
   }
 }
 
-class SignupView extends StatelessWidget {
+class SignupView extends StatefulWidget {
   const SignupView({super.key});
 
+  @override
+  State<SignupView> createState() => _SignupViewState();
+}
+
+class _SignupViewState extends State<SignupView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +108,8 @@ class SignupView extends StatelessWidget {
                     onPressed: () {
                       // print(state.passwordValueSign);
                       // print(state.passwordErrorTextSign);
-                      context.read<AuthBloc>().add(AuthSignUpSubmit());
+                      // context.read<AuthBloc>().add(AuthSignUpSubmit());
+                      context.router.push(PostPageRoute());
                     },
                     size: Size(343, 48),
                     background: Primary,

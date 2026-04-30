@@ -10,13 +10,14 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i18;
+import 'package:untitled/feature/api_test/view/post_page.dart' as _i12;
 import 'package:untitled/feature/auth/view/forgot_password_page.dart' as _i4;
 import 'package:untitled/feature/auth/view/login_page.dart' as _i5;
 import 'package:untitled/feature/auth/view/signup_page.dart' as _i15;
 import 'package:untitled/feature/cart/view/my_bag_page.dart' as _i6;
 import 'package:untitled/feature/catalog/view/new_collection.dart' as _i9;
 import 'package:untitled/feature/dashboard/view/dashboard_page.dart' as _i3;
-import 'package:untitled/feature/dashboard/view/sale_page.dart' as _i12;
+import 'package:untitled/feature/dashboard/view/sale_page.dart' as _i13;
 import 'package:untitled/feature/dashboard/view/success2_page.dart' as _i16;
 import 'package:untitled/feature/dashboard/view/success_page.dart' as _i17;
 import 'package:untitled/feature/payment/view/add_shipping_address.dart' as _i1;
@@ -27,7 +28,6 @@ import 'package:untitled/feature/payment/view/shipping_address_page.dart'
 import 'package:untitled/feature/profile/view/my_orders_page.dart' as _i7;
 import 'package:untitled/feature/profile/view/my_profile.dart' as _i8;
 import 'package:untitled/feature/profile/view/order_details_page.dart' as _i10;
-import 'package:untitled/feature/profile/view/settings_page.dart' as _i13;
 
 /// generated route for
 /// [_i1.AddShippingAddress]
@@ -206,7 +206,23 @@ class PaymentMethodsRoute extends _i18.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i12.SalePage]
+/// [_i12.PostPage]
+class PostPageRoute extends _i18.PageRouteInfo<void> {
+  const PostPageRoute({List<_i18.PageRouteInfo>? children})
+    : super(PostPageRoute.name, initialChildren: children);
+
+  static const String name = 'PostPageRoute';
+
+  static _i18.PageInfo page = _i18.PageInfo(
+    name,
+    builder: (data) {
+      return const _i12.PostPage();
+    },
+  );
+}
+
+/// generated route for
+/// [_i13.SalePage]
 class SalePageRoute extends _i18.PageRouteInfo<void> {
   const SalePageRoute({List<_i18.PageRouteInfo>? children})
     : super(SalePageRoute.name, initialChildren: children);
@@ -216,23 +232,7 @@ class SalePageRoute extends _i18.PageRouteInfo<void> {
   static _i18.PageInfo page = _i18.PageInfo(
     name,
     builder: (data) {
-      return const _i12.SalePage();
-    },
-  );
-}
-
-/// generated route for
-/// [_i13.SettingsPage]
-class SettingsPageRoute extends _i18.PageRouteInfo<void> {
-  const SettingsPageRoute({List<_i18.PageRouteInfo>? children})
-    : super(SettingsPageRoute.name, initialChildren: children);
-
-  static const String name = 'SettingsPageRoute';
-
-  static _i18.PageInfo page = _i18.PageInfo(
-    name,
-    builder: (data) {
-      return const _i13.SettingsPage();
+      return const _i13.SalePage();
     },
   );
 }
